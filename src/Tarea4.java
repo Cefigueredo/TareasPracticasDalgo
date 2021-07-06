@@ -45,11 +45,7 @@ public class Tarea4 {
 	}
 	
 	public String hallarNMasRepetido(ArrayList<String> a, ArrayList<String> b) {
-			import java.lang.reflect.Array;
-import java.util.ArrayList;
 
-public class tarea {
-    public static void main(String[] args) {
 
 		    //n = largo del array 
 		    //a = array 1
@@ -133,10 +129,7 @@ public class tarea {
 		    while (j < right) {
 			a[k++] = r[j++];
 		    }
-		}
-
-
-		}
+		
 
 	}
 }
