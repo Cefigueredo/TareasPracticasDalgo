@@ -20,9 +20,15 @@ public class Tarea4 {
 				final String [] dataStr = line.split(" ");
 				final int[] numeros = Arrays.stream(dataStr).mapToInt(f->Integer.parseInt(f)).toArray();
 				//Se resuelve el correspondiente caso
-				int [] respuestas = instancia.procesarNumeros(numeros);
-				//Se imprime la respuesta y se reinicia el while para verificar si existe otro caso por procesar
-				System.out.println(respuestas[0]+" "+respuestas[1]);
+//				int [] respuestas = instancia.procesarNumeros(numeros);
+//				//Se imprime la respuesta y se reinicia el while para verificar si existe otro caso por procesar
+//				System.out.println(respuestas[0]+" "+respuestas[1]);
+//				line = br.readLine();
+				
+//				Se imprime la respuesta y se reinicia el while para verificar si existe otro caso por procesar
+//				System.out.println(respuestas[0]+" "+respuestas[1]);
+				int respuestas = instancia.hallarNMasRepetido(numeros, numeros);
+				System.out.println(respuestas);
 				line = br.readLine();
 			}
 		}
@@ -43,93 +49,142 @@ public class Tarea4 {
 		}
 		return respuestas;
 	}
-	
-	public String hallarNMasRepetido(ArrayList<String> a, ArrayList<String> b) {
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @return r
+	 */
+	public int hallarNMasRepetido(int[] a, int[] b) {
 
-
+			int r = -1;
 		    //n = largo del array 
 		    //a = array 1
 		    //b - array 2 
 
 		    int n = 4;
-
-		    Int a[] = a[1,2,3,4]; 
-		    Int b[] = new ArrayList<>(); 
-		    Int b1[] = new ArrayList<>(); 
-		    Int a1[] = new ArrayList<>(); 
-
-
+		    
+		    
+		    int[] a1 = new int[a.length]; 
+		    int[] b1 = new int[b.length]; 
+		    
 		    int cont = 1 ;
 		    int max = 0 ;
 		    int actual = 0;
 		    int i = 0;
 		    int j = 0;
 		    int j1 = 0;
+		    int i1 = 0;
 
 		    mergeSort(a, n);
 		    mergeSort(b, n);
 
 
-		    while(i < n && j < n ){
-			if(a[1]==b[j] && b1[j1] != a[i]){
-			    b1[j1] = b[j];
-			    j++;
-			    j1++;
-			}
-			else if(a[i]<b[j]){
-			    i++;
-			}
-			else if(){
-
-			}
+		    while(i < a.length && j < b.length ){
+		    	if(a[i]==b[j] && b1[j1] != a[i]){
+		    		b1[j1] = b[j];
+		    		j++;
+		    		j1++;
+		    	}
+		    	else if(a[i]<b[j]){
+		    		i++;
+		    	}
+		    	else if(a[i]>b[j]){
+		    		j++;
+		    	}
+		    	else if(a[i]==b[j] && b1[j1] == a[i]) {
+		    		i++;
+		    		j++;
+		    		j1++;
+		    	}
 		    }
-
-
+		    i=0;
+		    j=0;
+		    
+		    while(i < a.length && j < b.length ){
+		    	if(a[i]==b[j] && a1[i1] != b[j]){
+		    		a1[i1] = a[i];
+		    		i++;
+		    		i1++;
+		    	}
+		    	else if(a[i]<b[j]){
+		    		i++;
+		    	}
+		    	else if(a[i]>b[j]){
+		    		j++;
+		    	}
+		    	else if(a[i]==b[j] && a1[i1] == b[j]) {
+		    		i++;
+		    		j++;
+		    		i1++;
+		    	}
+		    }
+		    int[] c = new int[i1+j1+2];
+		    
+		    System.arraycopy(a1, 0, c, 0, i1+1);
+	        System.arraycopy(b1, 0, c, i1+1, j1+1);
+		    mergeSort(c, c.length);
+		    i=0;
+		    
+		    while(i<c.length) {
+		    	if(c[i]==c[i+1]) {
+		    		cont++;
+		    		actual=c[i];
+		    		i++;
+		    	}
+		    	else if(c[i]!=c[i+1]) {
+		    		cont = 1;
+		    		if(actual > max) {
+		    			max = actual;
+		    		}
+		    		i++;
+		    	}
+		    }
+		    r=max;
 		    System.out.println(cont);   
 
+		    return r;
+	}
 
-		    }
 
+	public static void mergeSort(int[] a, int n) {
+		if (n < 2) {
+			return;
+		}
+		int mid = n / 2;
+		int[] l = new int[mid];
+		int[] r = new int[n - mid];
 
-		    public static void mergeSort(int[] a, int n) {
-			if (n < 2) {
-			    return;
-			}
-			int mid = n / 2;
-			int[] l = new int[mid];
-			int[] r = new int[n - mid];
+		for (int i = 0; i < mid; i++) {
+			l[i] = a[i];
+		}
+		for (int i = mid; i < n; i++) {
+			r[i - mid] = a[i];
+		}
+		mergeSort(l, mid);
+		mergeSort(r, n - mid);
 
-			for (int i = 0; i < mid; i++) {
-			    l[i] = a[i];
-			}
-			for (int i = mid; i < n; i++) {
-			    r[i - mid] = a[i];
-			}
-			mergeSort(l, mid);
-			mergeSort(r, n - mid);
+		merge(a, l, r, mid, n - mid);
+	}
 
-			merge(a, l, r, mid, n - mid);
-		    }
+	public static void merge(
+			int[] a, int[] l, int[] r, int left, int right) {
 
-		    public static void merge(
-		  int[] a, int[] l, int[] r, int left, int right) {
-
-		    int i = 0, j = 0, k = 0;
-		    while (i < left && j < right) {
+		int i = 0, j = 0, k = 0;
+		while (i < left && j < right) {
 			if (l[i] <= r[j]) {
-			    a[k++] = l[i++];
+				a[k++] = l[i++];
 			}
 			else {
-			    a[k++] = r[j++];
+				a[k++] = r[j++];
 			}
-		    }
-		    while (i < left) {
+		}
+		while (i < left) {
 			a[k++] = l[i++];
-		    }
-		    while (j < right) {
+		}
+		while (j < right) {
 			a[k++] = r[j++];
-		    }
-		
+		}
 
 	}
 }
