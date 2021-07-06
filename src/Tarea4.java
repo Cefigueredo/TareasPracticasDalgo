@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+//Hecho por @Carlos Figueredo y @Camilo Otalora
 public class Tarea4 {
 	public static void main(String[] args) throws Exception {
 		Tarea4 instancia = new Tarea4();
@@ -17,18 +17,17 @@ public class Tarea4 {
 				//Se entra mientras la linea no sea vacia o no sea igual al caractaer de terminacion "0" (este depende de la especificacion de la salida)
 			while(line!=null && line.length()>0 && !"0".equals(line)) {
 				//Se procesa la linea
-				final String [] dataStr = line.split(" ");
-				final int[] numeros = Arrays.stream(dataStr).mapToInt(f->Integer.parseInt(f)).toArray();
-				//Se resuelve el correspondiente caso
-//				int [] respuestas = instancia.procesarNumeros(numeros);
-//				//Se imprime la respuesta y se reinicia el while para verificar si existe otro caso por procesar
-//				System.out.println(respuestas[0]+" "+respuestas[1]);
-//				line = br.readLine();
 				
-//				Se imprime la respuesta y se reinicia el while para verificar si existe otro caso por procesar
-//				System.out.println(respuestas[0]+" "+respuestas[1]);
-				int respuestas = instancia.hallarNMasRepetido(numeros, numeros);
+				line = br.readLine();
+				final String [] dataStr = line.split(" ");
+				final int[] primerArreglo = Arrays.stream(dataStr).mapToInt(f->Integer.parseInt(f)).toArray();
+				line = br.readLine();
+				final String [] dataStr2 = line.split(" ");
+				final int[] segundoArreglo = Arrays.stream(dataStr2).mapToInt(f->Integer.parseInt(f)).toArray();
+				int respuestas = instancia.hallarNMasRepetido(primerArreglo, segundoArreglo);
 				System.out.println(respuestas);
+
+				
 				line = br.readLine();
 			}
 		}
@@ -62,12 +61,11 @@ public class Tarea4 {
 		    //a = array 1
 		    //b - array 2 
 
-		    int n = 4;
-		    
 		    
 		    int[] a1 = new int[a.length]; 
 		    int[] b1 = new int[b.length]; 
 		    
+		    int anteriorCont = 1;
 		    int cont = 1 ;
 		    int max = 0 ;
 		    int actual = 0;
@@ -76,8 +74,8 @@ public class Tarea4 {
 		    int j1 = 0;
 		    int i1 = 0;
 
-		    mergeSort(a, n);
-		    mergeSort(b, n);
+		    mergeSort(a, a.length);
+		    mergeSort(b, b.length);
 
 
 		    while(i < a.length && j < b.length ){
@@ -119,29 +117,35 @@ public class Tarea4 {
 		    		i1++;
 		    	}
 		    }
-		    int[] c = new int[i1+j1+2];
+		    int[] c = new int[i1+j1];
 		    
-		    System.arraycopy(a1, 0, c, 0, i1+1);
-	        System.arraycopy(b1, 0, c, i1+1, j1+1);
+		    System.arraycopy(a1, 0, c, 0, i1);
+	        System.arraycopy(b1, 0, c, i1, j1);
 		    mergeSort(c, c.length);
 		    i=0;
 		    
-		    while(i<c.length) {
-		    	if(c[i]==c[i+1]) {
+		    while(i<c.length-1) {
+		    	if(c[i]==c[i+1] ) {
 		    		cont++;
 		    		actual=c[i];
 		    		i++;
 		    	}
 		    	else if(c[i]!=c[i+1]) {
-		    		cont = 1;
-		    		if(actual > max) {
+		    	  	if(cont > anteriorCont) {
 		    			max = actual;
 		    		}
+		    		anteriorCont = cont;
+		    		cont = 1;
 		    		i++;
 		    	}
+		    	
 		    }
-		    r=max;
-		    System.out.println(cont);   
+		    if(cont > anteriorCont) {
+    			max = actual;
+    		}
+		    if(max>0) {
+		    	r=max;
+		    }
 
 		    return r;
 	}
