@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 /**
  * 
- * @author Carlos Figueredo y Camilo Otalora
+ * @author Carlos Figueredo - 201813445 y Camilo Otalora
  *
  */
 public class Tarea5 {
@@ -18,7 +18,7 @@ public class Tarea5 {
 			String line = br.readLine();
 				
 				//Se entra mientras la linea no sea vacia o no sea igual al caractaer de terminacion "0" (este depende de la especificacion de la salida)
-			while(line!=null && line.length()>0 && !"0".equals(line)) {
+			while(line!=null && line.length()>0 && !line.startsWith("0 0")) {
 				//Se procesa la linea
 				final String [] dataStr1 = line.split(" ");
 				final int[] contieneT = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
