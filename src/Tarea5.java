@@ -1,14 +1,10 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.HashSet;
 /**
  * 
  * @author Carlos Figueredo y Camilo Otalora
- *Fuente:
- *TutorialCup (2021). Encuentra si hay un subarreglo con suma 0.
- *Recuperado de https://www.tutorialcup.com/es/entrevista/Hashing/encuentra-si-hay-un-subarreglo-con-0-sum.htm
+ *
  */
 public class Tarea5 {
 	public static void main(String[] args) throws Exception {
