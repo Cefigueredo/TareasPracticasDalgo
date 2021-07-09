@@ -4,7 +4,8 @@ import java.util.Arrays;
 /**
  * 
  * @author Carlos Figueredo - 201813445 y Camilo Otalora - 201732760
- *
+ *Fuente: Geeksforgeeks (2021). Maximum sum rectangle in a 2D matrix | DP-27.
+ *Recuperado de: https://www.geeksforgeeks.org/maximum-sum-rectangle-in-a-2d-matrix-dp-27/
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -24,7 +25,7 @@ public class Main {
 				final int[] tamanio = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
 				int n = tamanio[0];
 				int[][] matr = new int[n][n];
-				
+
 				for(int i = 0; i < n; i++) {
 					line = br.readLine();
 					final String [] dataStr2 = line.split(" ");
@@ -43,25 +44,53 @@ public class Main {
 	}
 
 	//cita https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d?
-	public static int hallarMayorSumSubarreglo(int[][] matrix, int n ) {
-		//n es el tamaño
-		int x = 0;
-		int localmax=0, globalmax = 0;
 
-		for (int i=0; i<n; i++){
-			for(int j = 0; j<n; j++){
-				//max(matrix o matrix+localmax)
-				if(matrix[i][j] > matrix[i][j]+localmax){
-					localmax = matrix[i][j];
-				}else{
-					localmax = matrix[i][j]+localmax;
-				}
-				if(localmax>globalmax){
-					globalmax=localmax;
+	public static int hallarMayorSumSubarreglo(int[][] mat, int n ) {
+		//n es el tamanio
+		int m = mat.length;
+		int preSum[][] = new int[m + 1][n];
+
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				preSum[i + 1][j] =
+						preSum[i][j] + mat[i][j];
+			}
+		}
+
+		int maxSum = 0;
+		int minSum = Integer.MIN_VALUE;
+		int negRow = 0, negCol = 0;
+		int rStart = 0, rEnd = 0, cStart = 0, cEnd = 0;
+		for (int i = 0;i < m;i++){
+			for (int j = i; j < m; j++){
+				
+				int sum = 0;
+				int curColStart = 0;
+				for (int k = 0; k < n; k++){
+					
+					sum += preSum[j + 1][k] - preSum[i][k];
+					if (sum < 0) {
+						if (minSum < sum) {
+							minSum = sum;
+							negRow = j;
+							negCol = k;
+						}
+						sum = 0;
+						curColStart = k + 1;
+					}
+					else if (maxSum < sum){
+						maxSum = sum;
+						rStart = i;
+						rEnd = j;
+						cStart = curColStart;
+						cEnd = k;
+					}
 				}
 			}
 		}
-		x=globalmax;
-		return x;
+
+		return maxSum;
 	}
 }

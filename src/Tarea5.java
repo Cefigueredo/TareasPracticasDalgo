@@ -50,4 +50,28 @@ public class Tarea5 {
 		 }
 		 return r;
 	 }
+		public static int hallarMayorSumSubarreglo(int[][] matrix, int n ) {
+			//n es el tamaño
+			int x = 0;
+			int localmax=0, globalmax = 0;
+			int nums=0;
+			for (int i=0; i<n; i++){
+				for(int j = i; j<n; j++){
+					//max(matrix o matrix+localmax)
+					if(matrix[i][j] > matrix[i][j]+localmax){
+						localmax = matrix[i][j];
+						nums=0;
+					}else{
+						localmax = matrix[i][j]+localmax;
+						nums++;
+					}
+					if(localmax>globalmax){
+						globalmax=localmax;
+					}
+				}
+			}
+			x=globalmax;
+			return x;
+		}
+		
 }
