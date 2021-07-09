@@ -50,42 +50,27 @@ public class Main {
 		int m = mat.length;
 		int preSum[][] = new int[m + 1][n];
 
-		for (int i = 0; i < m; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				preSum[i + 1][j] =
-						preSum[i][j] + mat[i][j];
+		for (int i = 0; i < m; i++){
+			for (int j = 0; j < n; j++){
+				preSum[i + 1][j] = preSum[i][j] + mat[i][j];
 			}
 		}
 
 		int maxSum = 0;
 		int minSum = Integer.MIN_VALUE;
-		int negRow = 0, negCol = 0;
-		int rStart = 0, rEnd = 0, cStart = 0, cEnd = 0;
 		for (int i = 0;i < m;i++){
-			for (int j = i; j < m; j++){
-				
+			for (int j = i; j < m; j++){				
 				int sum = 0;
-				int curColStart = 0;
-				for (int k = 0; k < n; k++){
-					
+				for (int k = 0; k < n; k++){					
 					sum += preSum[j + 1][k] - preSum[i][k];
 					if (sum < 0) {
 						if (minSum < sum) {
 							minSum = sum;
-							negRow = j;
-							negCol = k;
 						}
 						sum = 0;
-						curColStart = k + 1;
 					}
 					else if (maxSum < sum){
 						maxSum = sum;
-						rStart = i;
-						rEnd = j;
-						cStart = curColStart;
-						cEnd = k;
 					}
 				}
 			}
