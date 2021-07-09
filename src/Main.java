@@ -6,6 +6,7 @@ import java.util.Arrays;
  * @author Carlos Figueredo - 201813445 y Camilo Otalora - 201732760
  *Fuente: Geeksforgeeks (2021). Maximum sum rectangle in a 2D matrix | DP-27.
  *Recuperado de: https://www.geeksforgeeks.org/maximum-sum-rectangle-in-a-2d-matrix-dp-27/
+ *
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -43,39 +44,43 @@ public class Main {
 		}
 	}
 
-	//cita https://medium.com/@rsinghal757/kadanes-algorithm-dynamic-programming-how-and-why-does-it-work-3fd8849ed73d?
 
-	public static int hallarMayorSumSubarreglo(int[][] mat, int n ) {
-		//n es el tamanio
-		int m = mat.length;
-		int preSum[][] = new int[m + 1][n];
+	public static int hallarMayorSumSubarreglo(int[][] matrix, int n ) {
+		int largo = matrix.length;
+		int preSum[][] = new int[largo + 1][n];
 
-		for (int i = 0; i < m; i++){
-			for (int j = 0; j < n; j++){
-				preSum[i + 1][j] = preSum[i][j] + mat[i][j];
+		for (int i = 0; i < largo; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				preSum[i + 1][j] =
+						preSum[i][j] + matrix[i][j];
 			}
 		}
 
-		int maxSum = 0;
-		int minSum = Integer.MIN_VALUE;
-		for (int i = 0;i < m;i++){
-			for (int j = i; j < m; j++){				
+		int global_max = 0;
+		int local_max = 0;
+
+		for (int i = 0;i < largo;i++){
+			for (int j = i; j < largo; j++){
+				
 				int sum = 0;
-				for (int k = 0; k < n; k++){					
+				for (int k = 0; k < n; k++){
+					
 					sum += preSum[j + 1][k] - preSum[i][k];
 					if (sum < 0) {
-						if (minSum < sum) {
-							minSum = sum;
+						if (local_max < sum) {
+							local_max = sum;
 						}
 						sum = 0;
 					}
-					else if (maxSum < sum){
-						maxSum = sum;
+					else if (global_max < sum){
+						global_max = sum;
 					}
 				}
 			}
 		}
 
-		return maxSum;
+		return global_max;
 	}
 }
