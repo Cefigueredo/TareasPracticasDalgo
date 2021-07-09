@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 /**
  * 
- * @author Carlos Figueredo - 201813445 y Camilo Otalora
+ * @author Carlos Figueredo - 201813445 y Camilo Otalora - 201732760
  *
  */
 public class Tarea5 {
