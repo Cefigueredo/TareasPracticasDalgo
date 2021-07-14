@@ -14,23 +14,40 @@ public class Problema1 {
 			String line = br.readLine();
 
 			//Se entra mientras la linea no sea vacia o no sea igual al caractaer de terminacion "0" (este depende de la especificacion de la salida)
-			while(line!=null && line.length()>0 && !"0".equals(line)) {
+			while(line!=null && line.length()>0 && !"0 0".equals(line)) {
 				//Se procesa la linea
 				final String [] dataStr1 = line.split(" ");
 				final int[] tamanio = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
-				int n = tamanio[0];
-				int[][] matr = new int[n][n];
-
-				for(int i = 0; i < n; i++) {
+				int m = tamanio[0];//Filas del arreglo
+				int n = tamanio[1];//Columnas del arreglo
+				int[][] matr = new int[m][n];//Inicia arreglo [m,n]
+				
+				//Establece posición Inicial
+				line = br.readLine();
+				final String [] dataStr2 = line.split(" ");
+				final int[] posicionInicial = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
+				
+				//Establece posición Final
+				line = br.readLine();
+				final String [] dataStr3 = line.split(" ");
+				final int[] posicionFinal = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
+				
+				
+				//Llena al matriz con los valores del dados por entrada
+				for(int i = 0; i < m; i++) {
 					line = br.readLine();
-					final String [] dataStr2 = line.split(" ");
-					final int[] arrayEnI = Arrays.stream(dataStr2).mapToInt(f->Integer.parseInt(f)).toArray();
+					final String [] dataStr4 = line.split(" ");
+					final int[] arrayEnI = Arrays.stream(dataStr4).mapToInt(f->Integer.parseInt(f)).toArray();
 					for(int j = 0;j < n;j++) {
 						matr[i][j] = arrayEnI[j];
 					}
 
 				}
-				int respuestas = instancia.rallyRacing(matr,n);				
+				
+				//Ejecuta el algoritmo
+				int respuestas = instancia.rallyRacing(matr,n);
+				
+				//Imprime la respuesta
 				System.out.println(respuestas);
 
 				line = br.readLine();
