@@ -34,15 +34,7 @@ public class Problema1 {
 				
 				
 				//Llena al matriz con los valores del dados por entrada
-				for(int i = 0; i < m; i++) {
-					line = br.readLine();
-					final String [] dataStr4 = line.split(" ");
-					final int[] arrayEnI = Arrays.stream(dataStr4).mapToInt(f->Integer.parseInt(f)).toArray();
-					for(int j = 0;j < n;j++) {
-						matr[i][j] = arrayEnI[j];
-					}
-
-				}
+				line = llenarMatriz(br, line, matr, m, n);
 				
 				//Ejecuta el algoritmo
 				int respuestas = instancia.rallyRacing(matr,n);
@@ -53,6 +45,26 @@ public class Problema1 {
 				line = br.readLine();
 			}
 		}
+	}
+	public static String llenarMatriz(BufferedReader br, String linea, int[][] matriz, int filas, int columnas) throws Exception{
+		for(int i = 0; i < filas; i++) {
+			linea = br.readLine();
+			final String [] dataStr4 = linea.split(" ");
+			final int[] arrayEnI = Arrays.stream(dataStr4).mapToInt(f->Integer.parseInt(f)).toArray();
+			for(int j = 0;j < columnas;j++) {
+				matriz[i][j] = arrayEnI[j];
+			}
+		}
+		return linea;
+//		for(int i = 0; i < m; i++) {
+//		line = br.readLine();
+//		final String [] dataStr4 = line.split(" ");
+//		final int[] arrayEnI = Arrays.stream(dataStr4).mapToInt(f->Integer.parseInt(f)).toArray();
+//		for(int j = 0;j < n;j++) {
+//			matr[i][j] = arrayEnI[j];
+//		}
+//
+//	}
 	}
 	public static int rallyRacing(int[][] matrix, int n ) {
 		int largo = matrix.length;
