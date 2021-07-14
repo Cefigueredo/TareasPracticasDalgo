@@ -30,11 +30,49 @@ public class Problema1 {
 					}
 
 				}
-				int respuestas = instancia.hallarMayorSumSubarreglo(matr,n);				
+				int respuestas = instancia.rallyRacing(matr,n);				
 				System.out.println(respuestas);
 
 				line = br.readLine();
 			}
 		}
+	}
+	public static int rallyRacing(int[][] matrix, int n ) {
+		int largo = matrix.length;
+		int preSum[][] = new int[largo + 1][n];
+
+		for (int i = 0; i < largo; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				preSum[i + 1][j] =
+						preSum[i][j] + matrix[i][j];
+			}
+		}
+
+		int global_max = 0;
+		int local_max = 0;
+
+		for (int i = 0;i < largo;i++){
+			for (int j = i; j < largo; j++){
+				
+				int sum = 0;
+				for (int k = 0; k < n; k++){
+					
+					sum += preSum[j + 1][k] - preSum[i][k];
+					if (sum < 0) {
+						if (local_max < sum) {
+							local_max = sum;
+						}
+						sum = 0;
+					}
+					else if (global_max < sum){
+						global_max = sum;
+					}
+				}
+			}
+		}
+
+		return global_max;
 	}
 }
