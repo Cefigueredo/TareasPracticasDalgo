@@ -3,6 +3,9 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Problema2 {
+	
+	public static int DIMENSIONES_CAJA = 3;
+	
 	public static void main(String[] args) throws Exception {
 		Problema2 instancia = new Problema2();
 		try ( 
@@ -17,33 +20,34 @@ public class Problema2 {
 			while(line!=null && line.length()>0 && !"0".equals(line)) {
 				//Se procesa la linea
 				final String [] dataStr1 = line.split(" ");
-				final int[] tamanio = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
-				int n = tamanio[0];
-				int[][] matr = new int[n][n];
+				final int[] cantidadCajas = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
+				int n = cantidadCajas[0];
+				int[][] matr = new int[n][DIMENSIONES_CAJA];
 
+				//Carga la matriz con los datos
 				for(int i = 0; i < n; i++) {
 					line = br.readLine();
 					final String [] dataStr2 = line.split(" ");
 					final int[] arrayEnI = Arrays.stream(dataStr2).mapToInt(f->Integer.parseInt(f)).toArray();
-					for(int j = 0;j < n;j++) {
+					for(int j = 0;j < DIMENSIONES_CAJA;j++) {
 						matr[i][j] = arrayEnI[j];
 					}
 
 				}
-				int respuestas = instancia.alturaMaxPilaCajas(matr,n);				
+				int respuestas = instancia.alturaMaxPilaCajas(matr, n);				
 				System.out.println(respuestas);
 
 				line = br.readLine();
 			}
 		}
 	}
-	public static int alturaMaxPilaCajas(int[][] matrix, int n ) {
+	public static int alturaMaxPilaCajas(int[][] matrix, int n) {
 		int largo = matrix.length;
 		int preSum[][] = new int[largo + 1][n];
 
 		for (int i = 0; i < largo; i++)
 		{
-			for (int j = 0; j < n; j++)
+			for (int j = 0; j < DIMENSIONES_CAJA-1; j++)
 			{
 				preSum[i + 1][j] =
 						preSum[i][j] + matrix[i][j];
@@ -57,7 +61,7 @@ public class Problema2 {
 			for (int j = i; j < largo; j++){
 				
 				int sum = 0;
-				for (int k = 0; k < n; k++){
+				for (int k = 0; k < DIMENSIONES_CAJA-1; k++){
 					
 					sum += preSum[j + 1][k] - preSum[i][k];
 					if (sum < 0) {
