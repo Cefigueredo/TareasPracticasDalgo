@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 /**
  * 
- * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201
+ * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201732760
  *Fuente: GeeksForGeeks (2021). Shortest distance between two cells in a matrix or grid.
  *Recuperadod de: https://www.geeksforgeeks.org/shortest-distance-two-cells-matrix-grid/
  */
