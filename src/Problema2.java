@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-
+/**
+ * 
+ * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201
+ */
 public class Problema2 {
 	
 	public static int DIMENSIONES_CAJA = 3;
@@ -34,7 +37,8 @@ public class Problema2 {
 					}
 
 				}
-				int respuestas = instancia.alturaMaxPilaCajas(matr, n);				
+				int respuestas = instancia.alturaMaxPilaCajas(matr, n);
+				
 				System.out.println(respuestas);
 
 				line = br.readLine();
@@ -42,15 +46,12 @@ public class Problema2 {
 		}
 	}
 	public static int alturaMaxPilaCajas(int[][] matrix, int n) {
-		int largo = matrix.length;
-		int preSum[][] = new int[largo + 1][n];
+		int largo = n;
+		int preSum[][] = new int[largo + 1][DIMENSIONES_CAJA];
 
-		for (int i = 0; i < largo; i++)
-		{
-			for (int j = 0; j < DIMENSIONES_CAJA-1; j++)
-			{
-				preSum[i + 1][j] =
-						preSum[i][j] + matrix[i][j];
+		for (int i = 0; i < largo; i++){
+			for (int j = 0; j < DIMENSIONES_CAJA; j++){
+				preSum[i + 1][j] = preSum[i][j] + matrix[i][j];
 			}
 		}
 
@@ -61,7 +62,7 @@ public class Problema2 {
 			for (int j = i; j < largo; j++){
 				
 				int sum = 0;
-				for (int k = 0; k < DIMENSIONES_CAJA-1; k++){
+				for (int k = 0; k < DIMENSIONES_CAJA; k++){
 					
 					sum += preSum[j + 1][k] - preSum[i][k];
 					if (sum < 0) {
