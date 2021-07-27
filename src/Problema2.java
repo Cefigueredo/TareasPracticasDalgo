@@ -46,38 +46,23 @@ public class Problema2 {
 		}
 	}
 	public static int alturaMaxPilaCajas(int[][] matrix, int n) {
-		int largo = n;
-		int preSum[][] = new int[largo + 1][DIMENSIONES_CAJA];
-
-		for (int i = 0; i < largo; i++){
-			for (int j = 0; j < DIMENSIONES_CAJA; j++){
-				preSum[i + 1][j] = preSum[i][j] + matrix[i][j];
-			}
-		}
-
-		int global_max = 0;
-		int local_max = 0;
-
-		for (int i = 0;i < largo;i++){
-			for (int j = i; j < largo; j++){
-				
-				int sum = 0;
-				for (int k = 0; k < DIMENSIONES_CAJA; k++){
-					
-					sum += preSum[j + 1][k] - preSum[i][k];
-					if (sum < 0) {
-						if (local_max < sum) {
-							local_max = sum;
-						}
-						sum = 0;
-					}
-					else if (global_max < sum){
-						global_max = sum;
-					}
+		
+		int altura = 0;
+		int posAltura = 0;
+		boolean[][] marcado = new boolean[matrix.length][matrix[0].length];
+		int cantCajas = matrix.length;
+		//Análisis
+		//altura = matrix[m][n];
+		for(int i = 0; i < cantCajas; i++) {
+			for(int j = 0; j < DIMENSIONES_CAJA-1; j++) {
+				if(matrix[i][j]<matrix[i][j+1]) {
+					posAltura = j;
 				}
+				marcado[i][j]=true;
 			}
 		}
+		
 
-		return global_max;
+		return altura;
 	}
 }
