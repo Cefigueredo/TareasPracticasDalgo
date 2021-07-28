@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 /**
  * 
- * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201
+ * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201732760
  * Fuente: GeeksForGeeks (2021).Box Stacking Problem | DP-22
  * Recuperado de: https://www.geeksforgeeks.org/box-stacking-problem-dp-22/
  */
