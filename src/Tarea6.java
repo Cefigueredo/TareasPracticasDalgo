@@ -25,7 +25,7 @@ public class Tarea6 {
 				final String [] dataStr1 = line.split(" ");
 				final int[] tamanio = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
 				int n = tamanio[0];//Cantidad computadoras
-				V = n+1;
+				V = n;
 				int k = tamanio[1];//Cantidad cables
 				int[][] matr = new int[k][3];//Inicia arreglo
 				
@@ -41,10 +41,12 @@ public class Tarea6 {
 
 				//Ejecuta el algoritmo
 				int[] respuestas = instancia.dijkstra(matr);
-				
+				String r = "";
 				//Imprime la respuesta
-				System.out.println(respuestas);
-
+				for(int i = 1; i < respuestas.length; i++) {
+					r = r.concat(respuestas[i]+" ");
+				}
+				System.out.println(r);
 				line = br.readLine();
 			}
 			is.close();
@@ -69,24 +71,34 @@ public class Tarea6 {
     public static int[] dijkstra(int graph[][])
     {
     	
-        int dist[] = new int[V]; 
-        Boolean sptSet[] = new Boolean[V];
-        
+        int maxCapacidad[] = new int[V+1]; 
+//        Boolean sptSet[] = new Boolean[V];
+//        
         for (int i = 0; i < V; i++) {
-            dist[i] = Integer.MAX_VALUE;
-            sptSet[i] = false;
+        	maxCapacidad[i] = Integer.MAX_VALUE;
+            
         }
- 
-        for (int count = 0; count < V - 1; count++) {
-            int u = maxDistance(dist, sptSet);
-            sptSet[u] = true;
- 
-            for (int v = 0; v < 3; v++)
-                if (!sptSet[v] && graph[u][v] != 0 && dist[u] != Integer.MAX_VALUE && dist[u] + graph[u][v] < dist[v])
-                    dist[v] = dist[u] + graph[u][v];
+// 
+//        for (int count = 0; count < V - 1; count++) {
+//            int u = maxDistance(maxCapacidad, sptSet);
+//            sptSet[u] = true;
+// 
+//            for (int v = 0; v < 3; v++)
+//                if (!sptSet[v] && graph[u][v] != 0 && maxCapacidad[u] != Integer.MAX_VALUE && maxCapacidad[u] + graph[u][v] < maxCapacidad[v])
+//                	maxCapacidad[v] = maxCapacidad[u] + graph[u][v];
+//        }
+        
+        
+        for(int i = 0; i < graph.length; i++) {
+        	if(maxCapacidad[graph[i][0]] > graph[i][2]) {
+        		maxCapacidad[graph[i][0]] = graph[i][2];
+        	}
+        	if(maxCapacidad[graph[i][1]] > graph[i][2]) {
+        		maxCapacidad[graph[i][1]] = graph[i][2];
+        	}
         }
         
-        return dist;
+        return maxCapacidad;
     }
 }
 
