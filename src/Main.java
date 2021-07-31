@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-
+/**
+ * 
+ * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201732760
+ *
+ */
 
 public class Main{
 	
