@@ -1,140 +1,213 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 
 /**
+ * Este codigo no es de nuestra autoria, fue extraido del link
+ * https://www.cnblogs.com/lz87/p/12005423.html
  * 
- * @author Carlos Figueredo - 201813445 && Camilo Otalora - 201732760
+ * Se encontrara correctamente citado en la parte teorica.
+ * Fue ligeramente modificado.
  *
  */
+public class Main {
+	public static void main(String[] args) {
+		// long TInicio, TFin, tiempo;
+		// TInicio = System.currentTimeMillis();
 
-public class Main{
-	
-	private static int[][] start = new int[3][3];	
-	private static ArrayList<int[][]>  q = new ArrayList<int[][]>();
-	private static int[][][] r = new int[300][][];
-	private static int tamTablero = 0;
-	
-	
-	public static void main(String[] args) throws IOException {
-		Main instancia = new Main();
-		try ( 
-				//Se recibe la lectura de consola
-				InputStreamReader is= new InputStreamReader(System.in);
-				BufferedReader br = new BufferedReader(is);
-				) { 
-			//Se lee cada linea de entrada por separado
-			String line = br.readLine();
+		try (InputStreamReader isr = new InputStreamReader(System.in);
+				BufferedReader buffo = new BufferedReader(isr);) {
+			// Se lee cada linea de entrada por separado
+			String line = buffo.readLine();
 
-			//Se entra mientras la linea no sea vacia o no sea igual al caractaer de terminacion "0" (este depende de la especificacion de la salida)
-			while(line!=null && line.length()>0 && !"0".equals(line)) {
-				//Se procesa la linea
-				final String [] dataStr1 = line.split(" ");
-				final int[] nArray = Arrays.stream(dataStr1).mapToInt(f->Integer.parseInt(f)).toArray();
-				int n = nArray[0];
-				tamTablero = n;
-				int[][] matrix = new int[n][n];
-				for(int i = 0;i<n;i++) {
-					line = br.readLine();
-					final String [] dataStr2 = line.split("");
+			if (line.split(" ")[0].equals("<")) {
+				ArrayList<Integer> lista = new ArrayList<>();
+				String[] entrada = line.split(" ");
 
-					for(int j = 0; j < n; j++) {
-						
-						if(dataStr2[j].contains("x")) {
-							matrix[i][j]=1;
-						}
-						else {
-							matrix[i][j]=0;
-						}
-					}
-				}
-				start = matrix;
-				q.add(start);
-				q.add(new int[0][0]);
-				metodazo();
+				// Aqui deberia cambiar la ruta en caso de querer una especifica o si es un pc
+				// distinto
+				File file = new File("C:\\Users\\carlo\\Downloads\\" + entrada[1]);
+				BufferedReader br = new BufferedReader(new FileReader(file));
 
-				line = br.readLine();
-			}
-			is.close();
-			br.close();
+				// Aqui deberia cambiar la ruta en caso de querer una especifica o si es un pc
+				// distinto
+				FileWriter fw = new FileWriter("C:\\Users\\carlo\\Downloads\\" + entrada[3]);
+
+				String lectura;
+				while ((lectura = br.readLine()) != null && lectura.length() > 0 && !"0".equals(lectura)) {
+					// Tamaño NxN de la matriz
+					Integer ene = Integer.valueOf(lectura);
+
+					// Lee y y guarda la matriz
+					String[][] mat = new String[ene][ene];
 					
-		}
 
+					int fila = 0; // Para recorrer las filas de la matriz
+					lectura = br.readLine();
+					while (lectura != null) {
+						String[] enteros = lectura.split("");
+						for (int i = 0; i < enteros.length; i++)
+							mat[fila][i] = enteros[i];
 
-	}
-	
-	public static void metodazo() {
-		Hashtable<Integer,Boolean> d = new Hashtable<Integer,Boolean>();
-		int depth = 0;
-		boolean cent = false;
-		while(0 < q.size() && !cent){
-			
-			int[][] state = q.get(0);
-			q.remove(0);
+						fila++; // Incrementamos fila para la próxima línea de enteros
 
-			if(state.length==0) {
-				depth+=1;
-				q.add(state);
-			}
-			else {
-				int val=getStateVal(start);
-				if(val==0) {
-					System.out.println(depth);
-					cent=true;
-				}
-				if (!d.contains(val) && !cent) {
-					d.put(val, true);
-					for(int i = 0; i < state.length;i++) {
-						for(int j = 0; j < state.length;j++) {
-							int[][] newState = new int[tamTablero][tamTablero];
-							newState = toggle(start, i, j);
-							q.add(newState);
+						if (fila == ene)
+							break;
+
+						lectura = br.readLine(); // Leemos siguiente línea
+					}
+					
+					int[][] aux = new int[ene][ene];
+					
+					for (int i = 0; i < mat.length; i++) {
+						for (int j = 0; j < mat[0].length; j++) {
+							if(mat[i][j].equals("x"))
+								aux[i][j] = 1;
+							else
+								aux[i][j] = 0;
 						}
 					}
+
+					// Aqui comienza la logica
+					Integer rta = minFlips(aux);
+					// Aqui termina la logica
+
+					lista.add(rta);
 				}
+
+				try {
+					for (int i = 0; i < lista.size(); i++) {
+						fw.append(String.valueOf(lista.get(i)));
+						fw.append("\n");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						fw.flush();
+						fw.close();
+					} catch (Exception k) {
+						k.printStackTrace();
+					}
+				}
+			} else
+				// Se entra mientras la linea no sea vacia o no sea igual al caractaer de
+				// terminacion "0" (este depende de la especificacion de la salida)
+				while (line != null && line.length() > 0 && !"0".equals(line)) {
+					// Tamaño NxM de la matriz
+					Integer ene = Integer.valueOf(line);
+					
+					// Lee y y guarda la matriz
+					String[][] mat = new String[ene][ene];
+
+					int fila = 0; // Para recorrer las filas de la matriz
+					line = buffo.readLine();
+					while (line != null) {
+						String[] enteros = line.split("");
+						for (int i = 0; i < enteros.length; i++)
+							mat[fila][i] = enteros[i];
+
+						fila++; // Incrementamos fila para la próxima línea de enteros
+
+						if (fila == ene)
+							break;
+
+						line = buffo.readLine(); // Leemos siguiente línea
+					}
+					
+					int[][] aux = new int[ene][ene];
+					
+					for (int i = 0; i < mat.length; i++) {
+						for (int j = 0; j < mat[0].length; j++) {
+							if(mat[i][j].equals("x"))
+								aux[i][j] = 1;
+							else
+								aux[i][j] = 0;
+						}
+					}
+
+					// Aqui comienza la logica
+					Integer rta = minFlips(aux);
+					// Aqui termina la logica
+
+					System.out.println(rta);
+
+					line = buffo.readLine();
+				}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// TFin = System.currentTimeMillis();
+		// tiempo = TFin - TInicio;
+		// System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
+
+	}
+
+	private static int[] dx = { -1, 0, 1, 0 };
+	private static int[] dy = { 0, 1, 0, -1 };
+	private static int[] dp; // dp[i]: the minimum flips needed transitioning from state i to state 0
+	private static boolean[] seen;
+
+	public static int minFlips(int[][] mat) {
+		int m = mat.length;
+		dp = new int[1 << (m * m)];
+		seen = new boolean[1 << (m * m)];
+		Arrays.fill(dp, Integer.MAX_VALUE);
+		dp[0] = 0;
+
+		return dfs(mat);
+	}
+
+	private static int dfs(int[][] mat) {
+		int estado = getState(mat);
+		if (seen[estado]) {
+			return -1;
+		}
+		if (dp[estado] < Integer.MAX_VALUE) {
+			return dp[estado];
+		}
+		seen[estado] = true;
+		int costoMinimo = Integer.MAX_VALUE;
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				flipAt(mat, i, j);
+				int min = dfs(mat);
+				if (min >= 0) {
+					costoMinimo = Math.min(costoMinimo, min);
+				}
+				flipAt(mat, i, j);
+			}
+		}
+		dp[estado] = (costoMinimo == Integer.MAX_VALUE ? -1 : costoMinimo + 1);
+		seen[estado] = false;
+		return dp[estado];
+	}
+
+	private static void flipAt(int[][] mat, int x, int y) {
+		mat[x][y] = (mat[x][y] == 0 ? 1 : 0);
+		for (int dir = 0; dir < 4; dir++) {
+			int x1 = x + dx[dir];
+			int y1 = y + dy[dir];
+			if (x1 >= 0 && x1 < mat.length && y1 >= 0 && y1 < mat[0].length) {
+				mat[x1][y1] = (mat[x1][y1] == 0 ? 1 : 0);
 			}
 		}
 	}
 
-	public static int getStateVal(int[][] state) {
-		int val = 0;
-		int base = 1;
-		for(int i = 0; i < state.length;i++) {
-			for(int j = 0; j < state[0].length;j++) {
-				val += base*state[i][j];
-				base = base*2;
+	private static int getState(int[][] mat) {
+		int estado = 0, contador = 0;
+		for (int i = 0; i < mat.length; i++) {
+			for (int j = 0; j < mat[0].length; j++) {
+				estado = (estado | (mat[i][j] << contador));
+				contador++;
 			}
 		}
-		return val;
-	}
-	
-	public static int toggleBit(int bit) {
-		return bit==0?1:0;
-	}
-	
-	public static int[][] toggle(int[][] state, int i, int j) {
-
-		int[][] newState = new int[i][j];
-//		for r in state: 
-//		new_state.append([c for c in r]) 
-		newState = state;
-		newState[i][j] = toggleBit(newState[i][j]);
-		
-		if(i+1 < state.length) {
-			newState[i+1][j] = toggleBit(newState[i+1][j]);
-		}
-		if(i-1 >= 0) {
-			newState[i-1][j] = toggleBit(newState[i-1][j]);
-		}
-		if(j+1 < state[0].length) {
-			newState[i][j+1] = toggleBit(newState[i][j+1]);
-		}
-		if(j-1 >= 0) {
-			newState[i][j-1] = toggleBit(newState[i][j-1]);
-		}
-		return newState;
+		return estado;
 	}
 }
